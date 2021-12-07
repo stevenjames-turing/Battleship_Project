@@ -11,7 +11,7 @@ RSpec.describe Ship do
   expect(cruiser.length).to eq(3)
   end
 
-  xit '3* Deck object has health eq to length' do
+  it '3* Deck object has health eq to length' do
   cruiser = Ship.new("Cruiser", 3)
   expect(cruiser).to be_instance_of(Ship)
   end
