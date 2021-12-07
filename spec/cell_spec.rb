@@ -13,4 +13,13 @@ RSpec.describe Cell do
 
     expect(cell.coordinate).to eq("B4")
   end
+
+  it '3* Cell initializes empty' do
+    cell = Cell.new("B4")
+
+    expect(cell.ship).to eq(nil)
+    expect(cell.empty?).to be true
+  end
+
+
 end
