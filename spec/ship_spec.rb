@@ -1,3 +1,4 @@
+require 'pry'
 require './lib/ship'
 
 RSpec.describe Ship do
@@ -13,11 +14,11 @@ RSpec.describe Ship do
 
   it '3* Deck object has health eq to length' do
   cruiser = Ship.new("Cruiser", 3)
-  expect(cruiser).to be_instance_of(Ship)
+  expect(cruiser.health).to eq(cruiser.length)
   end
 
-  xit '2* Deck object starts with sunk eq false' do
+  it '4* Deck object starts with sunk eq false' do
   cruiser = Ship.new("Cruiser", 3)
-  expect(cruiser).to be_instance_of(Ship)
+  expect(cruiser.sunk?).to be false
   end
 end
