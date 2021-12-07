@@ -21,4 +21,11 @@ RSpec.describe Ship do
   cruiser = Ship.new("Cruiser", 3)
   expect(cruiser.sunk?).to be false
   end
+
+  it '5* when hit Deck health reduces by -1' do
+  cruiser = Ship.new("Cruiser", 3)
+  cruiser.hit
+  expect(cruiser.hits).to eq(1)
+  expect(cruiser.health).to eq(2)
+  end
 end
