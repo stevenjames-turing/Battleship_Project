@@ -21,5 +21,17 @@ RSpec.describe Cell do
     expect(cell.empty?).to be true
   end
 
+  it '4* can have a Ship' do
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+
+    cell.place_ship(cruiser)
+
+    expect(cell.ship).to be_instance_of(Ship)
+    expect(cell.ship.name).to eq("Cruiser")
+    expect(cell.empty?).to be false
+    require 'pry'; binding.pry
+  end
+
 
 end
