@@ -16,4 +16,7 @@ def get_starting_board
     starting_board
   end
 
+  def valid_coordinate?(coordinate)
+    @cells.keys.include?(coordinate)
+  end
 end
