@@ -26,17 +26,17 @@ class Cell
     @fired_upon
   end
 
-  def render()
-    if @fired_upon == false
+  def render(option = nil)
+    if option == true
+      "S"
+    elsif @fired_upon == false
       "."
     elsif @fired_upon == true && empty? == true
       "M"
-    elsif @fired_upon == true && empty? == false && ship.sunk? == false 
+    elsif @fired_upon == true && empty? == false && ship.sunk? == false
       "H"
     elsif @fired_upon == true && ship.sunk? == true
       "X"
-    elsif true
-      "S"
     end
   end
 
