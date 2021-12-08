@@ -30,8 +30,31 @@ RSpec.describe Cell do
     expect(cell.ship).to be_instance_of(Ship)
     expect(cell.ship.name).to eq("Cruiser")
     expect(cell.empty?).to be false
-    require 'pry'; binding.pry
   end
+
+  it '5* initializes not fired upon' do
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+
+    cell.place_ship(cruiser)
+
+    expect(cell.fired_upon?).to be false
+  end
+
+  it '6* can be fired upon' do
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+
+    cell.place_ship(cruiser)
+    expect(cell.fired_upon?).to be false
+
+    cell.fire_upon
+
+    expect(cell.ship.health).to eq(2)
+    expect(cell.fired_upon?).to be true
+  end
+
+
 
 
 end
