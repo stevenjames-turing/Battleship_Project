@@ -19,4 +19,18 @@ def get_starting_board
   def valid_coordinate?(coordinate)
     @cells.keys.include?(coordinate)
   end
+
+  def valid_placement?(ship, selected_coordinates)
+    true if ship.length == selected_coordinates.size
+    # true if selected_coordinates.include?(@cells.keys.sort.each_cons(ship.length) {|a| a})
+  end
+
+  #
+  # def place(ship, selected_coordinates)
+  #   selected_coordinates.each do |coordinate|
+  #     valid_coordinate?(coordinate)
+  #     coordinate.empty?
+  #   end
+  #
+  end
 end
