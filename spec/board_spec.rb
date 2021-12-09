@@ -9,7 +9,6 @@ RSpec.describe Board do
   # let (:) {}
   it '1* exists' do
     # board = Board.new
-
     expect(board).to be_instance_of(Board)
   end
 
@@ -57,15 +56,29 @@ RSpec.describe Board do
   #   expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be true
   # end
 
-  # it '8* can place ships' do
+  it '8* can place ships' do
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.place(submarine, ["A1", "B1"])
+
+    cell_1 = board.cells["A1"]
+    cell_2 = board.cells["A2"]
+    cell_3 = board.cells["A3"]
+
+    expect(cell_1.ship.name).to eq("Cruiser")
+    expect(cell_2.ship.name).to eq("Cruiser")
+    expect(cell_3.ship.name).to eq("Cruiser")
+    expect(cell_3.ship).to eq(cell_2.ship)
+  end
+
+  # it '9* cannot have overlapping ships' do
   #   board.place(cruiser, ["A1", "A2", "A3"])
+  #
+  #   # expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to be true
+  #
   #   board.place(submarine, ["A1", "B1"])
   #
-  #   expect(board.valid_placement?(submarine, ["A1", "B1"])).to be false
-  #
+  #   # expect(board.valid_placement?(submarine, ["A1", "B1"])).to be false
   # end
 
-
-
-
+  
 end
