@@ -27,7 +27,7 @@ class Cell
   end
 
   def render(option = nil)
-    if option == true
+    if option == true && empty? == false
       "S"
     elsif @fired_upon == false
       "."
