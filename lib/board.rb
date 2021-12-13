@@ -92,8 +92,8 @@ class Board
       valid_coordinate?(coordinate)
       coordinate.empty?
     end
-  end 
-  
+  end
+
     def place(ship, selected_coordinates)
     selected_coordinates.each do |coordinate|
       if valid_coordinate?(coordinate) == true && @cells[coordinate].empty? == true
