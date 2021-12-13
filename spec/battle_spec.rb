@@ -15,4 +15,14 @@ RSpec.describe Battle do
 
     expect(battle.board).to be_instance_of(Board)
   end
+
+  it '3* the computer can place ships on the board' do
+    battle = Battle.new
+    battle.computer_place_ship
+require 'pry'; binding.pry
+  end
+
+
+
+
 end
