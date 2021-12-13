@@ -86,6 +86,13 @@ class Board
       return false
     end
   end
+
+  def place(ship, selected_coordinates)
+    selected_coordinates.each do |coordinate|
+      valid_coordinate?(coordinate)
+      coordinate.empty?
+    end
+  end 
 end
 
 
@@ -97,10 +104,4 @@ end
 
   # true if selected_coordinates.include?(@cells.keys.sort.each_cons(ship.length) {|a| a})
 
-  #
-  # def place(ship, selected_coordinates)
-  #   selected_coordinates.each do |coordinate|
-  #     valid_coordinate?(coordinate)
-  #     coordinate.empty?
-  #   end
   #

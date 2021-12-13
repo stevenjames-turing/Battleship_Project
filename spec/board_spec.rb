@@ -45,7 +45,9 @@ RSpec.describe Board do
 
   it '7* a valid Ship placement must pass all validity tests' do
     expect(board.valid_placement?(submarine, ["A1", "A2"])).to be true
+    expect(board.valid_placement?(submarine, ["A3", "A5"])).to be false
     expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be true
+    expect(board.valid_placement?(cruiser, ["B1", "C1", "F1"])).to be false
   end
 
   it '8* can place ships' do
