@@ -21,7 +21,7 @@ class Board
     @cells.keys.include?(coordinate)
   end
 
-  def ship_lenth_fit?(ship, selected_coordinates)
+  def ship_length_fit?(ship, selected_coordinates)
     ship.length == selected_coordinates.size
   end
 
@@ -88,7 +88,7 @@ class Board
   end
 
   def valid_placement?(ship, selected_coordinates)
-    if !(ship_lenth_fit?(ship, selected_coordinates)) ; false
+    if !(ship_length_fit?(ship, selected_coordinates)) ; false
     elsif !(valid_placement_overlapping?(ship, selected_coordinates)) ; false
     elsif abc_placement?(ship, selected_coordinates) == true ; true
     elsif numerical_placement?(ship, selected_coordinates) == true ; true
