@@ -7,7 +7,7 @@ RSpec.describe Board do
   let (:cruiser) {Ship.new("Cruiser", 3)}
   let (:submarine) {Ship.new("Submarine", 2)}
   # let (:) {}
-  
+
   it '1* exists' do
     expect(board).to be_instance_of(Board)
   end
@@ -29,9 +29,10 @@ RSpec.describe Board do
   it '4* a valid Ship placement must be same length as Ship' do
 
     expect(board.valid_placement?(cruiser, ["A1", "A2"])).to be false
+    expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to be true
     expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to be false
   end
- 
+
   it '5* a valid Ship placement must be in consecutive cells' do
 
     expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to be false
@@ -48,7 +49,13 @@ RSpec.describe Board do
 
   it '7* a valid Ship placement must pass all validity tests' do
     expect(board.valid_placement?(submarine, ["A1", "A2"])).to be true
+    expect(board.valid_placement?(submarine, ["A1", "D2"])).to be false
     expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be true
+    expect(board.valid_placement?(cruiser, ["A2", "B2", "D2"])).to be false
+    expect(board.valid_placement?(cruiser, ["D2", "A2", "B2"])).to be false
+    expect(board.valid_placement?(cruiser, ["C1", "D1", "A1"])).to be false
+    expect(board.valid_placement?(cruiser, ["B2", "A2", "D2"])).to be false
+    expect(board.valid_placement?(cruiser, ["B3", "A3", "D3"])).to be false
   end
 
   it '8* cannot have overlapping ships' do
