@@ -43,14 +43,14 @@ class Battle
   def take_turn
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
-    computer_take_shot
+    computer_take_shot_i4_test
     render_boards
   end
- 
-  def computer_take_shot
+
+  def computer_take_shot_i4_test
     available_coordinates = @player_board.cells.keys.flatten
     shot_coordinate = available_coordinates.sample(1)[0]
-    until @player_board.valid_coordinate?(shot_coordinate) == true
+    until @player_board.valid_coordinate?(shot_coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
       shot_coordinate = available_coordinates.sample(1)[0]
     end
     @player_board.cells[shot_coordinate].fire_upon
@@ -59,11 +59,27 @@ class Battle
     else
       p "My shot on #{shot_coordinate} was a miss."
     end
+    available_coordinates.delete(shot_coordinate)
+  end
+
+  def computer_take_shot
+    available_coordinates = @player_board.cells.keys.flatten
+    shot_coordinate = available_coordinates.sample(1)[0]
+    until @player_board.valid_coordinate?(shot_coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
+      shot_coordinate = available_coordinates.sample(1)[0]
+    end
+    @player_board.cells[shot_coordinate].fire_upon
+    if @player_board.cells[shot_coordinate].empty? == false
+      p "My shot on #{shot_coordinate} was a hit."
+    else
+      p "My shot on #{shot_coordinate} was a miss."
+    end
+    available_coordinates.delete(shot_coordinate)
   end
 
   def get_shot_coordinate
     coordinate = gets.chomp
-    until @computer_board.valid_coordinate?(coordinate) == true
+    until @computer_board.valid_coordinate?(coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
       p "Please enter a valid coordinate:"
       coordinate = gets.chomp
     end
