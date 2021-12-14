@@ -19,12 +19,41 @@ class Battle
     if response == "p"
       computer_place_ship
       player_place_ship
-    elsif response == "q"
-      p "hit ctrl + c to exit"
+      render_boards
+      take_turn
     end
   end
 
-  def get_coordinates
+  def render_boards
+    p "=============COMPUTER BOARD============="
+    @computer_board.render
+    p "=============PLAYER BOARD============="
+    @player_board.render(true)
+  end
+
+  def take_turn
+    p "Enter the coordinate for your shot:"
+    get_shot_coordinate
+    computer_take_shot
+
+  end
+
+  # def shot_result
+  #   p "Your"
+  # end
+
+  def get_shot_coordinate
+    coordinate = gets.chomp.split(" ")
+    until @computer_board.valid_coordinate?(coordinate) == true
+      p "Please enter a valid coordinate:"
+      coordinate = gets.chomp.split(" ")
+  end
+
+  def computer_take_shot
+    
+  end
+
+  def get_ship_coordinates
     gets.chomp.split(" ")
   end
 
@@ -35,10 +64,10 @@ class Battle
     @player_board.render
     @ships.each do |ship|
       p "Enter the squares for the #{ship[0].name} (#{ship[0].length} spaces):"
-      selected_coordinates = get_coordinates
+      selected_coordinates = get_ship_coordinates
       until @player_board.valid_placement?(ship[0], selected_coordinates) == true
         p "Those are invalid coordinates. Please try again:"
-        selected_coordinates = get_coordinates
+        selected_coordinates = get_ship_coordinates
       end
       @player_board.place(ship, selected_coordinates)
       @player_board.render(true)
