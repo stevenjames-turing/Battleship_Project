@@ -45,10 +45,6 @@ class Board
       letter == letters_array[0]
     end
 
-<<<<<<< HEAD
-=======
-    # numbers_up = numbers_array.last == (numbers_array.first + ship.length - 1)
->>>>>>> 303a60cd1f0eca3b9aeea934a969b4cf8580c900
     numbers_up = numbers_array.each_cons(2).all? {|a,b| b - a == 1}
 
     return true if letters_match == true && numbers_up == true
@@ -75,10 +71,6 @@ class Board
         number == numbers_array[0]
     end
 
-<<<<<<< HEAD
-=======
-    # letters_up = letters_array[-1].ord == (letters_array[0].ord + ship.length - 1)
->>>>>>> 303a60cd1f0eca3b9aeea934a969b4cf8580c900
     letters_up = letters_array.each_cons(2).all? {|a,b| b.ord - a.ord == 1}
 
     return true if numbers_match == true && letters_up == true

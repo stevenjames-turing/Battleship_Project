@@ -2,74 +2,6 @@ class Battle
   attr_reader :computer_board, :player_board, :player_ships, :computer_ships
 
   def initialize
-<<<<<<< HEAD
-    @board = Board.new
-    @ships = get_ships
-  end
-
-  def get_ships
-    @ships = []
-    @ships << Ship.new("Cruiser", 3)
-    @ships << Ship.new("Submarine", 2)
-    @ships << Ship.new("Carrier", 5)
-    @ships << Ship.new("Battleship", 4)
-    @ships << Ship.new("Destroyer", 2)
-    return @ships
-  end
-
-until ships
-#   def get_coordinates
-#     gets.chomp.split(" ")
-#   end
-#
-# # Get's info from player and places Cruiser
-# # ISSUES: Cruiser is hardcoded.
-#   def player_place_cruiser
-#     cruiser = Ship.new("Cruiser", 3)
-#     selected_coordinates = get_coordinates
-#
-#     until @board.valid_placement?(cruiser, selected_coordinates) == true
-#       p "Those are invalid coordinates. Please try again:"
-#       get_coordinates
-#     end
-#     @board.place(cruiser, selected_coordinates)
-#   end
-#
-#   # Get's info from player and places Submarine
-#   # ISSUES: Submarine is hardcoded.
-#   def player_place_submarine
-#     submarine = Ship.new("Submarine", 2)
-#     selected_coordinates = get_coordinates
-#
-#     until @board.valid_placement?(submarine, selected_coordinates) == true
-#       p "Those are invalid coordinates. Please try again:"
-#       get_coordinates
-#     end
-#     @board.place(submarine, selected_coordinates)
-#   end
-#
-#   # THIS IS DESIGNED TO REPLACE THE HARDCODED SHIPS FOR THE PLAYER_PLACE METHOD
-#   def player_place_ship(ship)
-#     selected_coordinates = get_coordinates
-#
-#     until @board.valid_placement?(ship, selected_coordinates) == true
-#       p "Those are invalid coordinates. Please try again:"
-#       get_coordinates
-#     end
-#     @board.place(ship, selected_coordinates)
-#   end
-#
-# # MAJOR WORK IN PROGRESS. THIS WOULD BE THE COMPUTER'S PLACEMENT OF THE SHIPS
-# # ALSO CURRENTLY HARDCODED
-#   def computer_place_cruiser
-#     cruiser = Ship.new("Cruiser", 3)
-#     available_coordinates = @board
-#     selected_coordinates = []
-#
-#     selected_coordinates << available_coordinates.sample(cruiser.length)
-#     until @board.valid_placement?
-#   end
-=======
     @computer_board = Board.new
     @player_board = Board.new
     @player_ships = get_starting_ships
@@ -78,18 +10,34 @@ until ships
 
   def get_starting_ships
     available_ships = [cruiser = Ship.new("Cruiser", 3), submarine = Ship.new("Submarine", 2)]
-    available_ships.sample(2)
+    # available_ships.sample(2)
   end
 
   def start
-    p "Welcome to BATTLESHIP"
-    p "Enter p to play. Enter q to quit."
-    response = gets.chomp
-    if response == "p"
-      system "clear"
-      computer_place_ship
-      player_place_ship
-      render_boards_true
+    print %q"Welcome to BATTLESHIP
+      Enter p to play. Enter q to quit.
+      >>>"
+
+      play_or_quit = gets.chomp
+
+      if play_or_quit == "p"
+        play_game
+      elsif play_or_quit == "q"
+        print "Thanks for all the fish! Hope to see you again. Bye!"
+        # ***METHOD
+      else print "Bye!"
+      end
+    end
+  end
+
+  def play_game
+    computer_place_ship
+    player_place_ship
+    render_boards_true
+    # require 'pry'; binding.pry
+    until computer_health == 0 || player_health == 0
+      take_turn
+      render_boards
     end
   end
 
@@ -98,8 +46,8 @@ until ships
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render
-    require 'pry'; binding.pry
-    take_turn
+    # require 'pry'; binding.pry
+    # take_turn
   end
 
   def render_boards_true
@@ -107,15 +55,32 @@ until ships
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render(true)
-    take_turn
+    # take_turn
   end
 
   def take_turn
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
     computer_take_shot
-    render_boards
+    # render_boards
   end
+
+  def computer_health
+    total_health = 0
+    @computer_ships.each do |ship|
+      total_health += ship.health
+    end
+    return total_health
+  end
+
+  def player_health
+    total_health = 0
+    @player_ships.each do |ship|
+      total_health += ship.health
+    end
+    return total_health
+  end
+
 
   def computer_take_shot
     available_coordinates = @player_board.cells.keys.flatten
@@ -186,10 +151,84 @@ until ships
       end
     end
   end
->>>>>>> 303a60cd1f0eca3b9aeea934a969b4cf8580c900
 
   def test_runner
     @computer_board.render(true)
     @player_board.render(true)
   end
-end
+
+battle = Battle.new
+battle.start
+# ____________________________________
+
+# #    p "Welcome to BATTLESHIP"
+#     p "Enter p to play. Enter q to quit."
+#     response = gets.chomp
+#     if response == "p"
+#       system "clear"
+# #     @board = Board.new
+#     @ships = get_ships
+#   end
+#
+#   def get_ships
+#     @ships = []
+#     @ships << Ship.new("Cruiser", 3)
+#     @ships << Ship.new("Submarine", 2)
+#     @ships << Ship.new("Carrier", 5)
+#     @ships << Ship.new("Battleship", 4)
+#     @ships << Ship.new("Destroyer", 2)
+#     return @ships
+#   end
+#
+# until ships
+#   def get_coordinates
+#     gets.chomp.split(" ")
+#   end
+#
+# # Get's info from player and places Cruiser
+# # ISSUES: Cruiser is hardcoded.
+#   def player_place_cruiser
+#     cruiser = Ship.new("Cruiser", 3)
+#     selected_coordinates = get_coordinates
+#
+#     until @board.valid_placement?(cruiser, selected_coordinates) == true
+#       p "Those are invalid coordinates. Please try again:"
+#       get_coordinates
+#     end
+#     @board.place(cruiser, selected_coordinates)
+#   end
+#
+#   # Get's info from player and places Submarine
+#   # ISSUES: Submarine is hardcoded.
+#   def player_place_submarine
+#     submarine = Ship.new("Submarine", 2)
+#     selected_coordinates = get_coordinates
+#
+#     until @board.valid_placement?(submarine, selected_coordinates) == true
+#       p "Those are invalid coordinates. Please try again:"
+#       get_coordinates
+#     end
+#     @board.place(submarine, selected_coordinates)
+#   end
+#
+#   # THIS IS DESIGNED TO REPLACE THE HARDCODED SHIPS FOR THE PLAYER_PLACE METHOD
+#   def player_place_ship(ship)
+#     selected_coordinates = get_coordinates
+#
+#     until @board.valid_placement?(ship, selected_coordinates) == true
+#       p "Those are invalid coordinates. Please try again:"
+#       get_coordinates
+#     end
+#     @board.place(ship, selected_coordinates)
+#   end
+#
+# # MAJOR WORK IN PROGRESS. THIS WOULD BE THE COMPUTER'S PLACEMENT OF THE SHIPS
+# # ALSO CURRENTLY HARDCODED
+#   def computer_place_cruiser
+#     cruiser = Ship.new("Cruiser", 3)
+#     available_coordinates = @board
+#     selected_coordinates = []
+#
+#     selected_coordinates << available_coordinates.sample(cruiser.length)
+#     until @board.valid_placement?
+#   end
