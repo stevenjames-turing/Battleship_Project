@@ -20,11 +20,19 @@ class Battle
       system "clear"
       computer_place_ship
       player_place_ship
-      render_boards
+      render_boards_true
     end
   end
 
   def render_boards
+    p "=============COMPUTER BOARD============="
+    @computer_board.render
+    p "=============PLAYER BOARD============="
+    @player_board.render
+    take_turn
+  end
+
+  def render_boards_true
     p "=============COMPUTER BOARD============="
     @computer_board.render
     p "=============PLAYER BOARD============="
@@ -38,17 +46,15 @@ class Battle
     computer_take_shot
     render_boards
   end
- # COMPUTER_TAKE_SHOT IS BROKEN. THE INPUT FOR "FIRE_UPON" NEEDS TO BE A STRING AND
- # ITS CURRENTLY A STRING INSIDE OF AN ARRAY.
+ 
   def computer_take_shot
-    available_coordinates = []
-    available_coordinates << @player_board.cells.keys.flatten
-    shot_coordinate = available_coordinates.flatten.sample(1)
+    available_coordinates = @player_board.cells.keys.flatten
+    shot_coordinate = available_coordinates.sample(1)[0]
     until @player_board.valid_coordinate?(shot_coordinate) == true
-      shot_coordinate = available_coordinates.flatten.sample(1)
+      shot_coordinate = available_coordinates.sample(1)[0]
     end
-    @player_board.cells[shot_coordinate[0][0]].fire_upon
-    if @player_board.cells[shot_coordinate[0][0]].empty == false
+    @player_board.cells[shot_coordinate].fire_upon
+    if @player_board.cells[shot_coordinate].empty? == false
       p "My shot on #{shot_coordinate} was a hit."
     else
       p "My shot on #{shot_coordinate} was a miss."
@@ -62,6 +68,7 @@ class Battle
       coordinate = gets.chomp
     end
     @computer_board.cells[coordinate].fire_upon
+    system "clear"
     if @computer_board.cells[coordinate].empty? == false
       p "Your shot on #{coordinate} was a HIT!"
     else
