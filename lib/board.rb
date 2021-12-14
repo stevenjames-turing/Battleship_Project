@@ -3,9 +3,10 @@ class Board
 
   def initialize
     @cells = get_starting_board
-    # @selected_coordinates = []
   end
 
+  # Called at #initialize. Creates the board and assigns a Cell object
+  # to each coordinate on the board.
   def get_starting_board
     starting_board = {}
     ("A".."D").each do |y_axis|
@@ -17,6 +18,8 @@ class Board
     starting_board
   end
 
+  # Checks the coordinate passed as argument against the Cells on the board.
+  # returns true if coordinate matches one of the Cells.
   def valid_coordinate?(coordinate)
     @cells.keys.include?(coordinate)
   end
@@ -44,11 +47,6 @@ class Board
     letters_match = letters_array.all? do |letter|
       letter == letters_array[0]
     end
-
-<<<<<<< HEAD
-=======
-    # numbers_up = numbers_array.last == (numbers_array.first + ship.length - 1)
->>>>>>> 303a60cd1f0eca3b9aeea934a969b4cf8580c900
     numbers_up = numbers_array.each_cons(2).all? {|a,b| b - a == 1}
 
     return true if letters_match == true && numbers_up == true
@@ -75,17 +73,14 @@ class Board
         number == numbers_array[0]
     end
 
-<<<<<<< HEAD
-=======
-    # letters_up = letters_array[-1].ord == (letters_array[0].ord + ship.length - 1)
->>>>>>> 303a60cd1f0eca3b9aeea934a969b4cf8580c900
     letters_up = letters_array.each_cons(2).all? {|a,b| b.ord - a.ord == 1}
 
     return true if numbers_match == true && letters_up == true
     return false
   end
 
-
+  # Checks that each Cell included in the selected_coordinates is empty.
+  # Returns true if empty? == true for each coordinate passed through.
   def valid_placement_overlapping?(ship, selected_coordinates)
     selected_coordinates.each do |coordinate|
       if @cells[coordinate].empty?
@@ -106,6 +101,9 @@ class Board
     end
   end
 
+  # Accepts coordinates and a ship as arguments. If coordinates pass #valid_coordinate
+  # the ship is then placed on each coordinate. This places a single Ship object
+  # across multiple coordinates to match the length of the ship.
   def place(ship, selected_coordinates)
     selected_coordinates.each do |coordinate|
       if valid_coordinate?(coordinate) == true && @cells[coordinate].empty? == true
@@ -114,6 +112,9 @@ class Board
     end
   end
 
+  # Renders board in a visible way for the user to see their ships.
+  # Allows a user to see any prior shot history.
+  # Optional argument allows player to view their own current ship locations on board.
   def render(option = nil)
     board_string = "  1 2 3 4 \n" +
     "A #{@cells["A1"].render(option)} #{@cells["A2"].render(option)} #{@cells["A3"].render(option)} #{@cells["A4"].render(option)} \n" +
