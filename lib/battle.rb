@@ -1,10 +1,11 @@
 class Battle
-  attr_reader :computer_board, :player_board, :ships
+  attr_reader :computer_board, :player_board, :player_ships, :computer_ships
 
   def initialize
     @computer_board = Board.new
     @player_board = Board.new
-    @ships = get_starting_ships
+    @player_ships = get_starting_ships
+    @computer_ships = get_starting_ships
   end
 
   def get_starting_ships
@@ -29,6 +30,7 @@ class Battle
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render
+    require 'pry'; binding.pry
     take_turn
   end
 
@@ -50,12 +52,14 @@ class Battle
   def computer_take_shot
     available_coordinates = @player_board.cells.keys.flatten
     shot_coordinate = available_coordinates.sample(1)[0]
-    until @player_board.valid_coordinate?(shot_coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
+    until @player_board.valid_coordinate?(shot_coordinate) == true && @computer_board.cells[shot_coordinate].fired_upon? == false
       shot_coordinate = available_coordinates.sample(1)[0]
     end
     @player_board.cells[shot_coordinate].fire_upon
-    if @player_board.cells[shot_coordinate].empty? == false
+    if @player_board.cells[shot_coordinate].empty? == false && @player_board.cells[shot_coordinate].ship.sunk? == false
       p "My shot on #{shot_coordinate} was a hit."
+    elsif @player_board.cells[shot_coordinate].empty? == false && @player_board.cells[shot_coordinate].ship.sunk? == true
+      p "My shot on #{shot_coordinate} was a hit. I sunk your #{@player_board.cells[shot_coordinate].ship.name}."
     else
       p "My shot on #{shot_coordinate} was a miss."
     end
@@ -70,8 +74,10 @@ class Battle
     end
     @computer_board.cells[coordinate].fire_upon
     system "clear"
-    if @computer_board.cells[coordinate].empty? == false
+    if @computer_board.cells[coordinate].empty? == false && @computer_board.cells[coordinate].ship.sunk? == false
       p "Your shot on #{coordinate} was a HIT!"
+    elsif @computer_board.cells[coordinate].empty? == false && @computer_board.cells[coordinate].ship.sunk? == true
+      p "Your shot on #{coordinate} was a HIT! You sunk my #{@computer_board.cells[coordinate].ship.name}!"
     else
       p "Your shot on #{coordinate} was a miss."
     end
@@ -86,7 +92,7 @@ class Battle
     p "You now need to lay out your two ships."
     p "The Cruiser is three units long and the Submarine is two units long."
     @player_board.render
-    @ships.each do |ship|
+    @player_ships.each do |ship|
       p "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
       selected_coordinates = get_ship_coordinates
       until @player_board.valid_placement?(ship, selected_coordinates) == true
@@ -101,7 +107,7 @@ class Battle
     available_coordinates = @computer_board.cells.keys
     selected_coordinates = []
 
-    @ships.each do |ship|
+    @computer_ships.each do |ship|
       selected_coordinates << available_coordinates.sample(ship.length)
       until @computer_board.valid_placement?(ship, selected_coordinates.flatten) == true
         selected_coordinates = available_coordinates.sample(ship.length)
