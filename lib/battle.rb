@@ -20,6 +20,7 @@ class Battle
       computer_place_ship
       player_place_ship
       render_boards
+      system "clear"
       take_turn
     end
   end
@@ -35,7 +36,6 @@ class Battle
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
     computer_take_shot
-
   end
 
   # def shot_result
@@ -43,14 +43,18 @@ class Battle
   # end
 
   def get_shot_coordinate
-    coordinate = gets.chomp.split(" ")
+    coordinate = gets.chomp
+    # require 'pry'; binding.pry
     until @computer_board.valid_coordinate?(coordinate) == true
       p "Please enter a valid coordinate:"
-      coordinate = gets.chomp.split(" ")
-  end
-
-  def computer_take_shot
-    
+      coordinate = gets.chomp
+    end
+    @computer_board.cells[coordinate].fire_upon
+    if @computer_board.cells[coordinate].empty? == false
+      p "Your shot on #{coordinate} was a HIT!"
+    else
+      p "Your shot on #{coordinate} was a miss."
+    end
   end
 
   def get_ship_coordinates
@@ -94,5 +98,4 @@ class Battle
     @computer_board.render(true)
     @player_board.render(true)
   end
-
 end
