@@ -8,7 +8,7 @@ class Battle
   end
 
   def get_starting_ships
-    available_ships = [[cruiser = Ship.new("Cruiser", 3)], [submarine = Ship.new("Submarine", 2)]]
+    available_ships = [cruiser = Ship.new("Cruiser", 3), submarine = Ship.new("Submarine", 2)]
     available_ships.sample(2)
   end
 
@@ -17,11 +17,10 @@ class Battle
     p "Enter p to play. Enter q to quit."
     response = gets.chomp
     if response == "p"
+      system "clear"
       computer_place_ship
       player_place_ship
       render_boards
-      system "clear"
-      take_turn
     end
   end
 
@@ -30,21 +29,34 @@ class Battle
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render(true)
+    take_turn
   end
 
   def take_turn
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
     computer_take_shot
+    render_boards
   end
-
-  # def shot_result
-  #   p "Your"
-  # end
+ # COMPUTER_TAKE_SHOT IS BROKEN. THE INPUT FOR "FIRE_UPON" NEEDS TO BE A STRING AND
+ # ITS CURRENTLY A STRING INSIDE OF AN ARRAY.
+  def computer_take_shot
+    available_coordinates = []
+    available_coordinates << @player_board.cells.keys.flatten
+    shot_coordinate = available_coordinates.flatten.sample(1)
+    until @player_board.valid_coordinate?(shot_coordinate) == true
+      shot_coordinate = available_coordinates.flatten.sample(1)
+    end
+    @player_board.cells[shot_coordinate[0][0]].fire_upon
+    if @player_board.cells[shot_coordinate[0][0]].empty == false
+      p "My shot on #{shot_coordinate} was a hit."
+    else
+      p "My shot on #{shot_coordinate} was a miss."
+    end
+  end
 
   def get_shot_coordinate
     coordinate = gets.chomp
-    # require 'pry'; binding.pry
     until @computer_board.valid_coordinate?(coordinate) == true
       p "Please enter a valid coordinate:"
       coordinate = gets.chomp
@@ -67,14 +79,13 @@ class Battle
     p "The Cruiser is three units long and the Submarine is two units long."
     @player_board.render
     @ships.each do |ship|
-      p "Enter the squares for the #{ship[0].name} (#{ship[0].length} spaces):"
+      p "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
       selected_coordinates = get_ship_coordinates
-      until @player_board.valid_placement?(ship[0], selected_coordinates) == true
+      until @player_board.valid_placement?(ship, selected_coordinates) == true
         p "Those are invalid coordinates. Please try again:"
         selected_coordinates = get_ship_coordinates
       end
       @player_board.place(ship, selected_coordinates)
-      @player_board.render(true)
     end
   end
 
@@ -83,9 +94,9 @@ class Battle
     selected_coordinates = []
 
     @ships.each do |ship|
-      selected_coordinates << available_coordinates.sample(ship[0].length)
-      until @computer_board.valid_placement?(ship[0], selected_coordinates.flatten) == true
-        selected_coordinates = available_coordinates.sample(ship[0].length)
+      selected_coordinates << available_coordinates.sample(ship.length)
+      until @computer_board.valid_placement?(ship, selected_coordinates.flatten) == true
+        selected_coordinates = available_coordinates.sample(ship.length)
       end
       @computer_board.place(ship, selected_coordinates)
       selected_coordinates.each do |coordinate|

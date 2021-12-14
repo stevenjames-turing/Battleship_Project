@@ -8,4 +8,4 @@ battle = Battle.new
 
 battle.start
 
-battle.test_runner
+# battle.test_runner
