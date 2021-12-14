@@ -3,7 +3,7 @@ class Board
 
   def initialize
     @cells = get_starting_board
-    @selected_coordinates = []
+    # @selected_coordinates = []
   end
 
   def get_starting_board
@@ -45,7 +45,8 @@ class Board
       letter == letters_array[0]
     end
 
-    numbers_up = numbers_array.last == (numbers_array.first + ship.length - 1)
+    # numbers_up = numbers_array.last == (numbers_array.first + ship.length - 1)
+    numbers_up = numbers_array.each_cons(2).all? {|a,b| b - a == 1}
 
     return true if letters_match == true && numbers_up == true
     return false
@@ -71,7 +72,8 @@ class Board
         number == numbers_array[0]
     end
 
-    letters_up = letters_array[-1].ord == (letters_array[0].ord + ship.length - 1)
+    # letters_up = letters_array[-1].ord == (letters_array[0].ord + ship.length - 1)
+    letters_up = letters_array.each_cons(2).all? {|a,b| b.ord - a.ord == 1}
 
     return true if numbers_match == true && letters_up == true
     return false
