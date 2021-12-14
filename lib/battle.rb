@@ -34,8 +34,8 @@ class Battle
     computer_place_ship
     player_place_ship
     render_boards_true
-    require pry; binding.pry
-    until @computer_ships.health.all? == 0 || @player_ships.health.all? == 0
+    # require 'pry'; binding.pry
+    until computer_health == 0 || player_health == 0
       take_turn
       render_boards
     end
@@ -46,7 +46,7 @@ class Battle
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render
-    require 'pry'; binding.pry
+    # require 'pry'; binding.pry
     # take_turn
   end
 
@@ -64,6 +64,23 @@ class Battle
     computer_take_shot
     # render_boards
   end
+
+  def computer_health
+    total_health = 0
+    @computer_ships.each do |ship|
+      total_health += ship.health
+    end
+    return total_health
+  end
+
+  def player_health
+    total_health = 0
+    @player_ships.each do |ship|
+      total_health += ship.health
+    end
+    return total_health
+  end
+
 
   def computer_take_shot
     available_coordinates = @player_board.cells.keys.flatten
