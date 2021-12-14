@@ -14,14 +14,30 @@ class Battle
   end
 
   def start
-    p "Welcome to BATTLESHIP"
-    p "Enter p to play. Enter q to quit."
-    response = gets.chomp
-    if response == "p"
-      system "clear"
-      computer_place_ship
-      player_place_ship
-      render_boards_true
+    print %q"Welcome to BATTLESHIP
+      Enter p to play. Enter q to quit.
+      >>>"
+
+      play_or_quit = gets.chomp
+
+      if play_or_quit == "p"
+        play_game
+      elsif play_or_quit == "q"
+        print "Thanks for all the fish! Hope to see you again. Bye!"
+        # ***METHOD
+      else print "Bye!"
+      end
+    end
+  end
+
+  def play_game
+    computer_place_ship
+    player_place_ship
+    render_boards_true
+    require pry; binding.pry
+    until @computer_ships.health.all? == 0 || @player_ships.health.all? == 0
+      take_turn
+      render_boards
     end
   end
 
@@ -31,7 +47,7 @@ class Battle
     p "=============PLAYER BOARD============="
     @player_board.render
     require 'pry'; binding.pry
-    take_turn
+    # take_turn
   end
 
   def render_boards_true
@@ -39,14 +55,14 @@ class Battle
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render(true)
-    take_turn
+    # take_turn
   end
 
   def take_turn
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
     computer_take_shot
-    render_boards
+    # render_boards
   end
 
   def computer_take_shot
@@ -123,11 +139,17 @@ class Battle
     @computer_board.render(true)
     @player_board.render(true)
   end
-end
 
+battle = Battle.new
+battle.start
+# ____________________________________
 
-#
-#     @board = Board.new
+# #    p "Welcome to BATTLESHIP"
+#     p "Enter p to play. Enter q to quit."
+#     response = gets.chomp
+#     if response == "p"
+#       system "clear"
+# #     @board = Board.new
 #     @ships = get_ships
 #   end
 #

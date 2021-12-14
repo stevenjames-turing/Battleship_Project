@@ -7,7 +7,7 @@ require './lib/battle'
 RSpec.describe Battle do
   it '1* exists' do
     battle = Battle.new
-    # require 'pry'; binding.pry
+
     expect(battle).to be_instance_of(Battle)
   end
 
@@ -30,6 +30,7 @@ RSpec.describe Battle do
   it '4* the computer can place ships on the board' do
     battle = Battle.new
     battle.computer_place_ship
+    
   end
 
   it '5* the player can place ships on the board' do
