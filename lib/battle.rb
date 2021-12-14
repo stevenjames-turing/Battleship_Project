@@ -1,13 +1,10 @@
 class Battle
-  attr_reader :board, :ships
+  attr_reader :computer_board, :player_board, :ships
 
   def initialize
-    @board = Board.new
+    @computer_board = Board.new
+    @player_board = Board.new
     @ships = get_starting_ships
-  end
-
-  def get_coordinates
-    gets.chomp.split(" ")
   end
 
   def get_starting_ships
@@ -15,74 +12,46 @@ class Battle
     available_ships.sample(2)
   end
 
-# Get's info from player and places Cruiser
-# ISSUES: Cruiser is hardcoded.
-  # def player_place_cruiser
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   selected_coordinates = get_coordinates
-  #
-  #   until @board.valid_placement?(cruiser, selected_coordinates) == true
-  #     p "Those are invalid coordinates. Please try again:"
-  #     get_coordinates
-  #   end
-  #   @board.place(cruiser, selected_coordinates)
-  # end
+  def get_coordinates
+    gets.chomp.split(" ")
+  end
 
-  # Get's info from player and places Submarine
-  # ISSUES: Submarine is hardcoded.
-  # def player_place_submarine
-  #   submarine = Ship.new("Submarine", 2)
-  #   selected_coordinates = get_coordinates
-  #
-  #   until @board.valid_placement?(submarine, selected_coordinates) == true
-  #     p "Those are invalid coordinates. Please try again:"
-  #     get_coordinates
-  #   end
-  #   @board.place(submarine, selected_coordinates)
-  # end
-
-  # # THIS IS DESIGNED TO REPLACE THE HARDCODED SHIPS FOR THE PLAYER_PLACE METHOD
-  # def player_place_ship(ship)
-  #   selected_coordinates = get_coordinates
-  #
-  #   until @board.valid_placement?(ship, selected_coordinates) == true
-  #     p "Those are invalid coordinates. Please try again:"
-  #     get_coordinates
-  #   end
-  #   @board.place(ship, selected_coordinates)
-  # end
-  #
-  # def get_computer_coordinates
-
-  # end
-
-# MAJOR WORK IN PROGRESS. THIS WOULD BE THE COMPUTER'S PLACEMENT OF THE SHIPS
-# ALSO CURRENTLY HARDCODED
-  # def computer_place_ship
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   available_coordinates = @board
-  #   selected_coordinates = []
-  #
-  #   selected_coordinates << available_coordinates.cells.keys.sample(cruiser.length)
-  #   until @board.valid_placement?(cruiser, selected_coordinates) == true
-  #     selected_coordinates = available_coordinates.cells.keys.sample(cruiser.length)
-  #   end
-  #   @board.place(cruiser, selected_coordinates)
-  # end
+  def player_place_ship
+    p "I have laid out my ships on the grid."
+    p "You now need to lay out your two ships."
+    p "The Cruiser is three units long and the Submarine is two units long."
+    @player_board.render
+    @ships.each do |ship|
+      p "Enter the squares for the #{ship[0].name} (#{ship[0].length} spaces):"
+      selected_coordinates = get_coordinates
+      until @player_board.valid_placement?(ship[0], selected_coordinates) == true
+        p "Those are invalid coordinates. Please try again:"
+        selected_coordinates = get_coordinates
+      end
+      @player_board.place(ship, selected_coordinates)
+      @player_board.render(true)
+    end
+  end
 
   def computer_place_ship
-    available_coordinates = @board.cells.keys
+    available_coordinates = @computer_board.cells.keys
     selected_coordinates = []
 
     @ships.each do |ship|
       selected_coordinates << available_coordinates.sample(ship[0].length)
-      # require 'pry'; binding.pry
-      until @board.valid_placement?(ship[0], selected_coordinates.flatten) == true
+      until @computer_board.valid_placement?(ship[0], selected_coordinates.flatten) == true
         selected_coordinates = available_coordinates.sample(ship[0].length)
       end
-      @board.place(ship, selected_coordinates)
-      available_coordinates.delete(selected_coordinates)
+      @computer_board.place(ship, selected_coordinates)
+      selected_coordinates.each do |coordinate|
+        available_coordinates.delete(coordinate)
+      end
     end
+  end
+
+  def test_runner
+    @computer_board.render(true)
+    @player_board.render(true)
   end
 
 end

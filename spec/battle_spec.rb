@@ -19,7 +19,12 @@ RSpec.describe Battle do
   it '3* the computer can place ships on the board' do
     battle = Battle.new
     battle.computer_place_ship
-require 'pry'; binding.pry
+  end
+
+  it '4* the player can place ships on the board' do
+    battle = Battle.new
+    # battle.computer_place_ship
+    # battle.player_place_ship
   end
 
 
