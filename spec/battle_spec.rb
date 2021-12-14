@@ -11,9 +11,22 @@ RSpec.describe Battle do
     expect(battle).to be_instance_of(Battle)
   end
 
-  it '2* initializes with a Board' do
+  it '2* initializes with 2 Boards' do
     battle = Battle.new
 
-    expect(battle.board).to be_instance_of(Board)
+    expect(battle.computer_board).to be_instance_of(Board)
+    expect(battle.player_board).to be_instance_of(Board)
   end
+
+  it '3* the computer can place ships on the board' do
+    battle = Battle.new
+    battle.computer_place_ship
+  end
+
+  it '4* the player can place ships on the board' do
+    battle = Battle.new
+    # battle.computer_place_ship
+    # battle.player_place_ship
+  end
+
 end
