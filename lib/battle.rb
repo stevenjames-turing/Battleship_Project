@@ -12,6 +12,18 @@ class Battle
     available_ships.sample(2)
   end
 
+  def start
+    p "Welcome to BATTLESHIP"
+    p "Enter p to play. Enter q to quit."
+    response = gets.chomp
+    if response == "p"
+      computer_place_ship
+      player_place_ship
+    elsif response == "q"
+      p "hit ctrl + c to exit"
+    end
+  end
+
   def get_coordinates
     gets.chomp.split(" ")
   end
