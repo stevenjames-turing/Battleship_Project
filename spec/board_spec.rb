@@ -7,7 +7,7 @@ RSpec.describe Board do
   let (:cruiser) {Ship.new("Cruiser", 3)}
   let (:submarine) {Ship.new("Submarine", 2)}
   # let (:) {}
-  
+
   it '1* exists' do
     expect(board).to be_instance_of(Board)
   end
@@ -31,7 +31,7 @@ RSpec.describe Board do
     expect(board.valid_placement?(cruiser, ["A1", "A2"])).to be false
     expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to be false
   end
- 
+
   it '5* a valid Ship placement must be in consecutive cells' do
 
     expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to be false
@@ -39,6 +39,7 @@ RSpec.describe Board do
     expect(board.valid_placement?(submarine, ["A1", "C1"])).to be false
     expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to be false
     expect(board.valid_placement?(submarine, ["C1", "B1"])).to be false
+    expect(board.valid_placement?(submarine, ["A1", "D1", "C1"])).to be false
   end
 
   it '6* a valid Ship placement cannot be diagonal' do
@@ -79,4 +80,6 @@ RSpec.describe Board do
     expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
 
   end
+
+
 end
