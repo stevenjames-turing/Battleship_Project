@@ -14,11 +14,16 @@ class Battle
     available_ships = [cruiser = Ship.new("Cruiser", 3), submarine = Ship.new("Submarine", 2)]
   end
 
+  # Resets the boards to allow a new game to begin
+  def reset_boards
+    @computer_board = Board.new
+    @player_board = Board.new
+  end
+
   def start
     print %q"Welcome to BATTLESHIP
       Enter p to play. Enter q to quit.
       >>>"
-
 
       play_or_quit = gets.chomp.downcase
 
@@ -27,7 +32,6 @@ class Battle
       else
         end_of_game_message
       end
-    end
   end
 
   def play_game
@@ -173,8 +177,12 @@ class Battle
   end
 
   def end_of_game_message
-         if computer_health == 0 ; p "You won!"
-        elsif player_health == 0 ; p "I won!"
-      else p "Thanks for all the fish! Have a great life. Bye!"
+    if computer_health == 0 ; p "You won!"
+    elsif player_health == 0 ; p "I won!"
+    else p "Thanks for all the fish! Have a great life. Bye!"
     end
+    sleep(3)
+    # reset_boards
+    # start
+  end
 end
