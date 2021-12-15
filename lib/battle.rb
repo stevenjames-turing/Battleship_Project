@@ -18,14 +18,12 @@ class Battle
       Enter p to play. Enter q to quit.
       >>>"
 
-      play_or_quit = gets.chomp
+      play_or_quit = gets.chomp.downcase
 
       if play_or_quit == "p"
         play_game
-      elsif play_or_quit == "q"
-        print "Thanks for all the fish! Hope to see you again. Bye!"
-        # ***METHOD
-      else print "Bye!"
+      else
+        end_of_game_message
       end
     end
   end
@@ -34,11 +32,12 @@ class Battle
     computer_place_ship
     player_place_ship
     render_boards_true
-    # require 'pry'; binding.pry
     until computer_health == 0 || player_health == 0
       take_turn
       render_boards
     end
+    p "**********GAME OVER**********"
+  end_of_game_message
   end
 
   def render_boards
@@ -46,8 +45,6 @@ class Battle
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render
-    # require 'pry'; binding.pry
-    # take_turn
   end
 
   def render_boards_true
@@ -55,7 +52,6 @@ class Battle
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render(true)
-    # take_turn
   end
 
   def take_turn
@@ -100,7 +96,7 @@ class Battle
   end
 
   def get_shot_coordinate
-    coordinate = gets.chomp
+    coordinate = gets.chomp.upcase
     until @computer_board.valid_coordinate?(coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
       p "Please enter a valid coordinate:"
       coordinate = gets.chomp
@@ -117,7 +113,7 @@ class Battle
   end
 
   def get_ship_coordinates
-    gets.chomp.split(" ")
+    gets.chomp.upcase.split(" ")
   end
 
   def player_place_ship
@@ -152,83 +148,9 @@ class Battle
     end
   end
 
-  def test_runner
-    @computer_board.render(true)
-    @player_board.render(true)
-  end
-
-battle = Battle.new
-battle.start
-# ____________________________________
-
-# #    p "Welcome to BATTLESHIP"
-#     p "Enter p to play. Enter q to quit."
-#     response = gets.chomp
-#     if response == "p"
-#       system "clear"
-# #     @board = Board.new
-#     @ships = get_ships
-#   end
-#
-#   def get_ships
-#     @ships = []
-#     @ships << Ship.new("Cruiser", 3)
-#     @ships << Ship.new("Submarine", 2)
-#     @ships << Ship.new("Carrier", 5)
-#     @ships << Ship.new("Battleship", 4)
-#     @ships << Ship.new("Destroyer", 2)
-#     return @ships
-#   end
-#
-# until ships
-#   def get_coordinates
-#     gets.chomp.split(" ")
-#   end
-#
-# # Get's info from player and places Cruiser
-# # ISSUES: Cruiser is hardcoded.
-#   def player_place_cruiser
-#     cruiser = Ship.new("Cruiser", 3)
-#     selected_coordinates = get_coordinates
-#
-#     until @board.valid_placement?(cruiser, selected_coordinates) == true
-#       p "Those are invalid coordinates. Please try again:"
-#       get_coordinates
-#     end
-#     @board.place(cruiser, selected_coordinates)
-#   end
-#
-#   # Get's info from player and places Submarine
-#   # ISSUES: Submarine is hardcoded.
-#   def player_place_submarine
-#     submarine = Ship.new("Submarine", 2)
-#     selected_coordinates = get_coordinates
-#
-#     until @board.valid_placement?(submarine, selected_coordinates) == true
-#       p "Those are invalid coordinates. Please try again:"
-#       get_coordinates
-#     end
-#     @board.place(submarine, selected_coordinates)
-#   end
-#
-#   # THIS IS DESIGNED TO REPLACE THE HARDCODED SHIPS FOR THE PLAYER_PLACE METHOD
-#   def player_place_ship(ship)
-#     selected_coordinates = get_coordinates
-#
-#     until @board.valid_placement?(ship, selected_coordinates) == true
-#       p "Those are invalid coordinates. Please try again:"
-#       get_coordinates
-#     end
-#     @board.place(ship, selected_coordinates)
-#   end
-#
-# # MAJOR WORK IN PROGRESS. THIS WOULD BE THE COMPUTER'S PLACEMENT OF THE SHIPS
-# # ALSO CURRENTLY HARDCODED
-#   def computer_place_cruiser
-#     cruiser = Ship.new("Cruiser", 3)
-#     available_coordinates = @board
-#     selected_coordinates = []
-#
-#     selected_coordinates << available_coordinates.sample(cruiser.length)
-#     until @board.valid_placement?
-#   end
+  def end_of_game_message
+         if computer_health == 0 ; p "You won!"
+        elsif player_health == 0 ; p "I won!"
+      else p "Thanks for all the fish! Have a great life. Bye!"
+    end
+end

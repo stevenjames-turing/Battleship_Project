@@ -3,7 +3,6 @@ class Board
 
   def initialize
     @cells = get_starting_board
-    # @selected_coordinates = []
   end
 
   def get_starting_board
