@@ -14,12 +14,6 @@ class Battle
     available_ships = [cruiser = Ship.new("Cruiser", 3), submarine = Ship.new("Submarine", 2)]
   end
 
-  # Resets the boards to allow a new game to begin
-  def reset_boards
-    @computer_board = Board.new
-    @player_board = Board.new
-  end
-
   def start
     print %q"Welcome to BATTLESHIP
       Enter p to play. Enter q to quit.
@@ -43,11 +37,11 @@ class Battle
       render_boards
     end
     end_of_game_message
-    sleep(5)
+    sleep(3)
     system 'clear'
-    x = Battle.new
-    x.start
-    end
+    new_game = Battle.new
+    new_game.start
+  end
 
   # Renders boards to player without optional argument
   # Players ships are hidden
@@ -184,8 +178,5 @@ class Battle
     elsif player_health == 0 ; p "I won!"
     else p "Thanks for all the fish! Have a great life. Bye!"
     end
-    sleep(3)
-    # reset_boards
-    # start
   end
 end
