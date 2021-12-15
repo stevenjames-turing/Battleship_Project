@@ -13,14 +13,14 @@ class Battle
   def get_starting_ships
     available_ships = [cruiser = Ship.new("Cruiser", 3), submarine = Ship.new("Submarine", 2)]
   end
-
+  
+  # This Start method asks the player if they want to play and will start the
+  # play_game method if they choose 'p'
   def start
     print %q"Welcome to BATTLESHIP
       Enter p to play. Enter q to quit.
       >>>"
-
       play_or_quit = gets.chomp.downcase
-
       if play_or_quit == "p"
         play_game
       else
@@ -28,6 +28,10 @@ class Battle
       end
   end
 
+  # This method is the how the pace of the game is organized. It uses other
+  # helper methods to control the flow and operations. When one player's ships
+  # have all been sunk, it will end the game, tell you who won and
+  # return you to the beginning and ask if you want to play again.
   def play_game
     computer_place_ship
     player_place_ship
