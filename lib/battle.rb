@@ -8,6 +8,8 @@ class Battle
     @computer_ships = get_starting_ships
   end
 
+  # Helper method. Initializes ships for game.
+  # Can initialize separate ships for the player and the computer
   def get_starting_ships
     available_ships = [cruiser = Ship.new("Cruiser", 3), submarine = Ship.new("Submarine", 2)]
   end
@@ -16,6 +18,7 @@ class Battle
     print %q"Welcome to BATTLESHIP
       Enter p to play. Enter q to quit.
       >>>"
+
 
       play_or_quit = gets.chomp.downcase
 
@@ -36,9 +39,11 @@ class Battle
       render_boards
     end
     p "**********GAME OVER**********"
-  end_of_game_message
+    end_of_game_message
   end
 
+  # Renders boards to player without optional argument
+  # Players ships are hidden
   def render_boards
     p "=============COMPUTER BOARD============="
     @computer_board.render
@@ -46,6 +51,8 @@ class Battle
     @player_board.render
   end
 
+  # Renders boards to player with optional argument "true" passed through.
+  # Optional arguement shows current location of players ships.
   def render_boards_true
     p "=============COMPUTER BOARD============="
     @computer_board.render
@@ -53,6 +60,8 @@ class Battle
     @player_board.render(true)
   end
 
+  # Helper method to facilitate game play. Gives direction to player
+  # Runs #get_shot_coordinate and #computer_take_shot methods
   def take_turn
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
@@ -75,6 +84,9 @@ class Battle
     return total_health
   end
 
+  # Shows list of available coordinates, randomly selects coordinates equal to the length of ship.
+  # Coordinates must pass all validity testing. Upon passing, used coordinates are removed from availabe coordinates
+  # Feedback is returned to player for hit, miss, and sunk ships.
   def computer_take_shot
     available_coordinates = @player_board.cells.keys.flatten
     shot_coordinate = available_coordinates.sample(1)[0]
@@ -92,11 +104,13 @@ class Battle
     available_coordinates.delete(shot_coordinate)
   end
 
+  # Get's shot coorinates from user. Runs coorinate through validation.
+  # Feedback is sent to player for hit, miss, and sunk ships.
   def get_shot_coordinate
     coordinate = gets.chomp.upcase
     until @computer_board.valid_coordinate?(coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
       p "Please enter a valid coordinate:"
-      coordinate = gets.chomp
+      coordinate = gets.chomp.upcase
     end
     @computer_board.cells[coordinate].fire_upon
     system "clear"
@@ -109,18 +123,21 @@ class Battle
     end
   end
 
+  # Helper method to get user coordinates. Coordinates are then formatted to be used in other methods.
   def get_ship_coordinates
     gets.chomp.upcase.split(" ")
   end
 
+  # Prints rules of placing ships to the player. Accepts user input for ship selected_coordinates
+  # runs input coordinates through validation testing. Ships are initialized on valid coordinates.
   def player_place_ship
     p "I have laid out my ships on the grid."
     p "You now need to lay out your two ships."
     p "The Cruiser is three units long and the Submarine is two units long."
     @player_board.render
-    selected_coordinates = []
     @player_ships.each do |ship|
       p "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
+      selected_coordinates = []
       unverified_coordinates = get_ship_coordinates
       unverified_coordinates.each do |coord|
         if @player_board.valid_coordinate?(coord) == true
@@ -137,6 +154,8 @@ class Battle
     end
   end
 
+  # Iterates through all available ships and selects random coordinates to set ship.
+  # All coordinates must pass #valid_placement tests before ships are placed.
   def computer_place_ship
     available_coordinates = @computer_board.cells.keys
     selected_coordinates = []

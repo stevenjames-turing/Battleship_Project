@@ -7,14 +7,17 @@ class Cell
     @fired_upon = false
   end
 
+  # Returns true if ship has been placed in Cell.
   def empty?
     @ship == nil
   end
 
+  # Initializes new ship on Cell when passed as argument
   def place_ship(new_ship)
     @ship = new_ship
   end
 
+  # Changes @fired_upon to true. If Cell has a Ship, ship is hit.
   def fire_upon
     @fired_upon = true
     if empty? == false
@@ -22,10 +25,13 @@ class Cell
     end
   end
 
+  # Returns true/false depending on boolean in @fired_upon
   def fired_upon?
     @fired_upon
   end
 
+  # Creates visible cues for each Cell. The "image" being displayed will vary
+  # depending on status of Cell and Ship. 
   def render(option = nil)
     if option == true && empty? == false
       "S"
