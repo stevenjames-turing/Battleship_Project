@@ -8,8 +8,8 @@ class Ship
     @hit_counter = 0
   end
  # When initialized the ship's health == it's size. It's health
- # decreases by one each time it's hit. When the health , 1 the ship
- # will be sunk. 
+ # decreases by one each time it's hit. When the health > 1 the ship
+ # will be sunk.
   def sunk?
     @health < 1
   end
