@@ -13,15 +13,30 @@ class Battle
   end
 
   def start
-    p "Welcome to BATTLESHIP"
-    p "Enter p to play. Enter q to quit."
-    response = gets.chomp
-    if response == "p"
-      system "clear"
-      computer_place_ship
-      player_place_ship
-      render_boards_true
+    print %q"Welcome to BATTLESHIP
+      Enter p to play. Enter q to quit.
+      >>>"
+
+      play_or_quit = gets.chomp.downcase
+
+      if play_or_quit == "p"
+        play_game
+      else
+        end_of_game_message
+      end
     end
+  end
+
+  def play_game
+    computer_place_ship
+    player_place_ship
+    render_boards_true
+    until computer_health == 0 || player_health == 0
+      take_turn
+      render_boards
+    end
+    p "**********GAME OVER**********"
+  end_of_game_message
   end
 
   def render_boards
@@ -29,7 +44,6 @@ class Battle
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render
-    take_turn
   end
 
   def render_boards_true
@@ -37,14 +51,28 @@ class Battle
     @computer_board.render
     p "=============PLAYER BOARD============="
     @player_board.render(true)
-    take_turn
   end
 
   def take_turn
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
     computer_take_shot
-    render_boards
+  end
+
+  def computer_health
+    total_health = 0
+    @computer_ships.each do |ship|
+      total_health += ship.health
+    end
+    return total_health
+  end
+
+  def player_health
+    total_health = 0
+    @player_ships.each do |ship|
+      total_health += ship.health
+    end
+    return total_health
   end
 
   def computer_take_shot
@@ -65,7 +93,7 @@ class Battle
   end
 
   def get_shot_coordinate
-    coordinate = gets.chomp
+    coordinate = gets.chomp.upcase
     until @computer_board.valid_coordinate?(coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
       p "Please enter a valid coordinate:"
       coordinate = gets.chomp
@@ -82,7 +110,7 @@ class Battle
   end
 
   def get_ship_coordinates
-    gets.chomp.split(" ")
+    gets.chomp.upcase.split(" ")
   end
 
   def player_place_ship
@@ -109,7 +137,6 @@ class Battle
     end
   end
 
-  # 
   def computer_place_ship
     available_coordinates = @computer_board.cells.keys
     selected_coordinates = []
@@ -125,4 +152,10 @@ class Battle
       end
     end
   end
+
+  def end_of_game_message
+         if computer_health == 0 ; p "You won!"
+        elsif player_health == 0 ; p "I won!"
+      else p "Thanks for all the fish! Have a great life. Bye!"
+    end
 end

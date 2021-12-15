@@ -47,6 +47,7 @@ class Board
     letters_match = letters_array.all? do |letter|
       letter == letters_array[0]
     end
+    
     numbers_up = numbers_array.each_cons(2).all? {|a,b| b - a == 1}
 
     return true if letters_match == true && numbers_up == true
