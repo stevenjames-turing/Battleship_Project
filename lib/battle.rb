@@ -35,8 +35,11 @@ class Battle
       take_turn
       render_boards
     end
-    p "**********GAME OVER**********"
-  end_of_game_message
+    end_of_game_message
+    sleep(5)
+    system 'clear'
+    x = Battle.new
+    x.start
   end
 
   def render_boards
@@ -96,7 +99,7 @@ class Battle
     coordinate = gets.chomp.upcase
     until @computer_board.valid_coordinate?(coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
       p "Please enter a valid coordinate:"
-      coordinate = gets.chomp
+      coordinate = gets.chomp.upcase
     end
     @computer_board.cells[coordinate].fire_upon
     system "clear"
