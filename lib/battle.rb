@@ -17,6 +17,7 @@ class Battle
       Enter p to play. Enter q to quit.
       >>>"
 
+
       play_or_quit = gets.chomp.downcase
 
       if play_or_quit == "p"
@@ -36,9 +37,10 @@ class Battle
       render_boards
     end
     p "**********GAME OVER**********"
-  end_of_game_message
+    end_of_game_message
   end
 
+  # STEVEN
   def render_boards
     p "=============COMPUTER BOARD============="
     @computer_board.render
@@ -46,6 +48,7 @@ class Battle
     @player_board.render
   end
 
+  # STEVEN
   def render_boards_true
     p "=============COMPUTER BOARD============="
     @computer_board.render
@@ -53,6 +56,7 @@ class Battle
     @player_board.render(true)
   end
 
+  # STEVEN
   def take_turn
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
@@ -75,6 +79,7 @@ class Battle
     return total_health
   end
 
+  # STEVEN
   def computer_take_shot
     available_coordinates = @player_board.cells.keys.flatten
     shot_coordinate = available_coordinates.sample(1)[0]
@@ -92,11 +97,13 @@ class Battle
     available_coordinates.delete(shot_coordinate)
   end
 
+  #
+  # STEVEN
   def get_shot_coordinate
     coordinate = gets.chomp.upcase
     until @computer_board.valid_coordinate?(coordinate) == true && @computer_board.cells[coordinate].fired_upon? == false
       p "Please enter a valid coordinate:"
-      coordinate = gets.chomp
+      coordinate = gets.chomp.upcase
     end
     @computer_board.cells[coordinate].fire_upon
     system "clear"
@@ -109,18 +116,21 @@ class Battle
     end
   end
 
+  # STEVEN
   def get_ship_coordinates
     gets.chomp.upcase.split(" ")
   end
 
+  # Prints rules of placing ships to the player. Accepts user input for ship selected_coordinates
+  #
   def player_place_ship
     p "I have laid out my ships on the grid."
     p "You now need to lay out your two ships."
     p "The Cruiser is three units long and the Submarine is two units long."
     @player_board.render
-    selected_coordinates = []
     @player_ships.each do |ship|
       p "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
+      selected_coordinates = []
       unverified_coordinates = get_ship_coordinates
       unverified_coordinates.each do |coord|
         if @player_board.valid_coordinate?(coord) == true
@@ -137,6 +147,8 @@ class Battle
     end
   end
 
+  # Iterates through all available ships and selects random coordinates to set ship.
+  # All coordinates must pass #valid_placement tests before ships are placed.
   def computer_place_ship
     available_coordinates = @computer_board.cells.keys
     selected_coordinates = []
