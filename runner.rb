@@ -7,5 +7,3 @@ require './lib/battle'
 battle = Battle.new
 
 battle.start
-
-# battle.test_runner

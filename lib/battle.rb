@@ -10,7 +10,6 @@ class Battle
 
   def get_starting_ships
     available_ships = [cruiser = Ship.new("Cruiser", 3), submarine = Ship.new("Submarine", 2)]
-    # available_ships.sample(2)
   end
 
   def start
@@ -58,7 +57,6 @@ class Battle
     p "Enter the coordinate for your shot:"
     get_shot_coordinate
     computer_take_shot
-    # render_boards
   end
 
   def computer_health
@@ -76,7 +74,6 @@ class Battle
     end
     return total_health
   end
-
 
   def computer_take_shot
     available_coordinates = @player_board.cells.keys.flatten
@@ -121,9 +118,17 @@ class Battle
     p "You now need to lay out your two ships."
     p "The Cruiser is three units long and the Submarine is two units long."
     @player_board.render
+    selected_coordinates = []
     @player_ships.each do |ship|
       p "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
-      selected_coordinates = get_ship_coordinates
+      unverified_coordinates = get_ship_coordinates
+      unverified_coordinates.each do |coord|
+        if @player_board.valid_coordinate?(coord) == true
+          selected_coordinates << coord
+        else
+          p "Those are invalid coordinates. Please try again:"
+        end
+      end
       until @player_board.valid_placement?(ship, selected_coordinates) == true
         p "Those are invalid coordinates. Please try again:"
         selected_coordinates = get_ship_coordinates
