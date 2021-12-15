@@ -30,11 +30,12 @@ RSpec.describe Battle do
   it '4* the computer can place ships on the board' do
     battle = Battle.new
     battle.computer_place_ship
-    
+
   end
 
   it '5* the player can place ships on the board' do
     battle = Battle.new
+    battle
     # battle.computer_place_ship
     # battle.player_place_ship
   end
