@@ -42,5 +42,5 @@ This project is the result of a partnership between 2 Module 1 students at Turin
 [Steven James](https://github.com/stevenjames-turing) and 
 [Tamara Dowis](https://github.com/wanderlust-create)
 
-## We hope you enjoy playng this as much as we enjoyed making it!
+## We hope you enjoy playing this as much as we enjoyed making it!
 
