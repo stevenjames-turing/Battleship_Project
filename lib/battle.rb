@@ -13,7 +13,7 @@ class Battle
   def get_starting_ships
     available_ships = [cruiser = Ship.new("Cruiser", 3), submarine = Ship.new("Submarine", 2)]
   end
-  
+
   # This Start method asks the player if they want to play and will start the
   # play_game method if they choose 'p'
   def start
@@ -73,6 +73,8 @@ class Battle
     computer_take_shot
   end
 
+  # This calculates the total health of the computer's ships
+  # to use for determinining when the game ends.
   def computer_health
     total_health = 0
     @computer_ships.each do |ship|
@@ -81,6 +83,8 @@ class Battle
     return total_health
   end
 
+  # This calculates the total health of the player's ships 
+  # to use for determinining when the game ends.
   def player_health
     total_health = 0
     @player_ships.each do |ship|
@@ -177,6 +181,7 @@ class Battle
     end
   end
 
+ # This is the message the player gets if they choose nt to play or the game ends.
   def end_of_game_message
     if computer_health == 0 ; p "You won!"
     elsif player_health == 0 ; p "I won!"
