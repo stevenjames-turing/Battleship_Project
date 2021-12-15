@@ -42,9 +42,12 @@ class Battle
       take_turn
       render_boards
     end
-    p "**********GAME OVER**********"
     end_of_game_message
-  end
+    sleep(5)
+    system 'clear'
+    x = Battle.new
+    x.start
+    end
 
   # Renders boards to player without optional argument
   # Players ships are hidden
