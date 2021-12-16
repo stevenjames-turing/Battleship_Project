@@ -89,6 +89,10 @@ RSpec.describe Battle do
     battle.computer_take_shot
     battle.computer_take_shot
     battle.computer_take_shot
+    battle.computer_take_shot
+    battle.computer_take_shot
+    battle.computer_take_shot
+    battle.computer_take_shot
 
     cells_fired_upon = []
     battle.player_board.cells.values.each do |value|
@@ -96,7 +100,7 @@ RSpec.describe Battle do
         cells_fired_upon << value
       end
     end
-    expect(cells_fired_upon.count).to eq(10)
+    expect(cells_fired_upon.count).to eq(14)
   end
 
   it '9* can display the computers total health' do
