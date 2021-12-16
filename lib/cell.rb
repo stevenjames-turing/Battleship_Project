@@ -31,7 +31,7 @@ class Cell
   end
 
   # Creates visible cues for each Cell. The "image" being displayed will vary
-  # depending on status of Cell and Ship. 
+  # depending on status of Cell and Ship.
   def render(option = nil)
     if option == true && empty? == false
       "S"
@@ -45,5 +45,4 @@ class Cell
       "X"
     end
   end
-
 end

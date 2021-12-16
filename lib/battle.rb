@@ -1,11 +1,13 @@
 class Battle
   attr_reader :computer_board, :player_board, :player_ships, :computer_ships
+  attr_writer :available_computer_shot_coordinates
 
   def initialize
     @computer_board = Board.new
     @player_board = Board.new
     @player_ships = get_starting_ships
     @computer_ships = get_starting_ships
+    @available_computer_shot_coordinates = @player_board.cells.keys.flatten
   end
 
   # Helper method. Initializes ships for game.
@@ -83,7 +85,7 @@ class Battle
     return total_health
   end
 
-  # This calculates the total health of the player's ships 
+  # This calculates the total health of the player's ships
   # to use for determinining when the game ends.
   def player_health
     total_health = 0
@@ -97,10 +99,9 @@ class Battle
   # Coordinates must pass all validity testing. Upon passing, used coordinates are removed from availabe coordinates
   # Feedback is returned to player for hit, miss, and sunk ships.
   def computer_take_shot
-    available_coordinates = @player_board.cells.keys.flatten
-    shot_coordinate = available_coordinates.sample(1)[0]
+    shot_coordinate = @available_computer_shot_coordinates.sample(1)[0]
     until @player_board.valid_coordinate?(shot_coordinate) == true && @computer_board.cells[shot_coordinate].fired_upon? == false
-      shot_coordinate = available_coordinates.sample(1)[0]
+      shot_coordinate = @available_computer_shot_coordinates.sample(1)[0]
     end
     @player_board.cells[shot_coordinate].fire_upon
     if @player_board.cells[shot_coordinate].empty? == false && @player_board.cells[shot_coordinate].ship.sunk? == false
@@ -110,7 +111,7 @@ class Battle
     else
       p "My shot on #{shot_coordinate} was a miss."
     end
-    available_coordinates.delete(shot_coordinate)
+    @available_computer_shot_coordinates = @available_computer_shot_coordinates.filter {|coord| coord != shot_coordinate}
   end
 
   # Get's shot coorinates from user. Runs coorinate through validation.
