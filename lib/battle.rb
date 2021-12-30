@@ -83,7 +83,7 @@ class Battle
     return total_health
   end
 
-  # This calculates the total health of the player's ships 
+  # This calculates the total health of the player's ships
   # to use for determinining when the game ends.
   def player_health
     total_health = 0
@@ -99,7 +99,7 @@ class Battle
   def computer_take_shot
     available_coordinates = @player_board.cells.keys.flatten
     shot_coordinate = available_coordinates.sample(1)[0]
-    until @player_board.valid_coordinate?(shot_coordinate) == true && @computer_board.cells[shot_coordinate].fired_upon? == false
+    until (@player_board.valid_coordinate?(shot_coordinate) == true) && (@player_board.cells[shot_coordinate].fired_upon? == false)
       shot_coordinate = available_coordinates.sample(1)[0]
     end
     @player_board.cells[shot_coordinate].fire_upon
@@ -110,7 +110,6 @@ class Battle
     else
       p "My shot on #{shot_coordinate} was a miss."
     end
-    available_coordinates.delete(shot_coordinate)
   end
 
   # Get's shot coorinates from user. Runs coorinate through validation.

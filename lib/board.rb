@@ -24,15 +24,16 @@ class Board
     @cells.keys.include?(coordinate)
   end
 
- # This is a valid_placement? helper method. It checks that the number of cooridnates
- # given are the same count as the length of the ship.
+  # This is a valid_placement? helper method. It checks that the number of cooridnates
+  # given are the same count as the length of the ship.
   def ship_length_fit?(ship, selected_coordinates)
     ship.length == selected_coordinates.size
   end
 
  # This is a valid_placement? helper method. It will return true if
- # 1. all of the letters in the selected coorinates are the same &&
- # 2. The numbers are consecutive
+
+  # 1. all of the letters in the selected coorinates are the same &&
+  # 2. The numbers are consecutive
   def abc_placement?(ship, selected_coordinates)
     sc_array = selected_coordinates.map do |point|
       point.split(//)
@@ -58,8 +59,9 @@ class Board
     return true if letters_match == true && numbers_up == true
     return false
   end
-  
+
   # This is a valid_placement? helper method. It will return true if
+
   # 1. all of the numbers in the selected coorinates are the same &&
   # 2. The letters are consecutive
   def numerical_placement?(ship, selected_coordinates)
@@ -100,7 +102,7 @@ class Board
     end
   end
 
-  #This is the method that pulls together a lot of smaller helper methods to determine if
+  # This is the method that pulls together a lot of smaller helper methods to determine if
   # the selected coordinates given by the player are valid to place their ship.
   def valid_placement?(ship, selected_coordinates)
     if !(ship_length_fit?(ship, selected_coordinates)) ; false

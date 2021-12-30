@@ -6,7 +6,6 @@ RSpec.describe Board do
   let (:board) {Board.new}
   let (:cruiser) {Ship.new("Cruiser", 3)}
   let (:submarine) {Ship.new("Submarine", 2)}
-  # let (:) {}
 
   it '1* exists' do
     expect(board).to be_instance_of(Board)
@@ -87,6 +86,4 @@ RSpec.describe Board do
     expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
 
   end
-
-
 end
